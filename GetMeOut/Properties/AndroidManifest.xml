@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="gr.ntovas.getmeout" android:installLocation="auto">
+	<uses-sdk android:minSdkVersion="23" android:targetSdkVersion="28" />
+	<application android:allowBackup="true" android:icon="@mipmap/ic_launcher" android:label="GetMeOut CY" android:roundIcon="@mipmap/ic_launcher_round" android:supportsRtl="true" android:theme="@style/AppTheme">
+		<receiver android:name=".MmsReceiver" android:permission="android.permission.BROADCAST_SMS">
+			<intent-filter>
+				<action android:name="android.provider.Telephony.SMS_DELIVER" />
+			</intent-filter>
+		</receiver>
+		<receiver android:name=".MmsReceiver" android:permission="android.permission.BROADCAST_WAP_PUSH">
+			<intent-filter>
+				<action android:name="android.provider.Telephony.WAP_PUSH_DELIVER" />
+				<data android:mimeType="application/vnd.wap.mms-message" />
+			</intent-filter>
+		</receiver>
+		<service android:name=".SendSmsService" android:exported="true" android:permission="android.permission.SEND_RESPOND_VIA_MESSAGE">
+			<intent-filter>
+				<action android:name="android.intent.action.RESPOND_VIA_MESSAGE" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data android:scheme="sms" />
+				<data android:scheme="smsto" />
+				<data android:scheme="mms" />
+				<data android:scheme="mmsto" />
+			</intent-filter>
+		</service>
+		<!-- Activity that allows the user to send new SMS/MMS messages -->
+		<activity android:name=".MainActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".SendActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.SEND" />
+				<action android:name="android.intent.action.SENDTO" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data android:scheme="sms" />
+				<data android:scheme="smsto" />
+				<data android:scheme="mms" />
+				<data android:scheme="mmsto" />
+			</intent-filter>
+		</activity>
+	</application>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.RECEIVE_SMS" />
+	<uses-permission android:name="android.permission.READ_SMS" />
+	<uses-permission android:name="android.permission.SEND_SMS" />
+	<uses-permission android:name="android.permission.WRITE_SMS" />
+	<uses-permission android:name="android.permission.RESPOND_VIA_MESSAGE" />
+	<uses-permission android:name="android.permission.WAP_PUSH_DELIVER" />
+	<uses-permission android:name="android.permission.RECEIVE_MMS" />
+</manifest>
