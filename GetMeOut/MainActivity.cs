@@ -7,7 +7,7 @@ using Android.Runtime;
 using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
-using SMShadow.Helpers;
+using GetMeOut.Helpers;
 using AlertDialog = Android.App.AlertDialog;
 using Exception = System.Exception;
 

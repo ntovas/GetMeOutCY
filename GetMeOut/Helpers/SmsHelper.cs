@@ -5,7 +5,7 @@ using Android.Content;
 using Android.Database;
 using Uri = Android.Net.Uri;
 
-namespace SMShadow.Helpers
+namespace GetMeOut.Helpers
 {
 	public class SmsHelper
 	{
