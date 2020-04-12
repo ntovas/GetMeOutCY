@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.DatabaseUtils
+import android.net.LinkAddress
 import android.net.Uri
 import java.lang.Exception
 
@@ -14,10 +15,11 @@ class SmsHelper(context: Context)
 
     var context : Context = context;
 
-    private fun getMessages(source: String): List<ContentValues?>? {
+    private fun getMessages(source: String, address: String): List<ContentValues?>? {
         val list = mutableListOf<ContentValues>()
         val uri: Uri = Uri.parse("content://sms/$source")
-        val cursor: Cursor = context.contentResolver.query(uri, null, null, null, null)
+        val cursor: Cursor = context.contentResolver.query(uri,
+            null, "address='"+address+"'", null, null)
         while (cursor.moveToNext()) {
             val map: ContentValues = ContentValues()
             DatabaseUtils.cursorRowToContentValues(cursor, map)
@@ -27,18 +29,17 @@ class SmsHelper(context: Context)
     }
 
     private fun getSentMessages(): List<ContentValues?>? {
-        return getMessages("sent")
+        return getMessages("sent", "8998")
     }
 
     private fun getInboxMessages(): List<ContentValues?>? {
-        return getMessages("inbox")
+        return getMessages("inbox", "CYREPUBLIC")
     }
 
     fun getLast() :ContentValues{
             val list = getSentMessages();
 
             val last = list
-                ?.takeWhile { c -> c?.getAsString("address") == "8998" }
                 ?.maxBy { c -> c?.getAsLong("date")!! }
                 ?: throw Exception("cant find message");
 
@@ -60,7 +61,6 @@ class SmsHelper(context: Context)
         val list = getInboxMessages();
 
         val last = list
-            ?.takeWhile { c -> c?.getAsString("address") == "CYREPUBLIC" }
             ?.maxBy { c -> c?.getAsLong("date")!! }
             ?: throw Exception("cant find message");
 
